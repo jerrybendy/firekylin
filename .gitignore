@@ -34,9 +34,6 @@ node_modules
 # Image upload folder
 www/static/images/upload/*
 
-# Database Config
-src/common/config/db.js
-
 # Compiled Release
 release/
 

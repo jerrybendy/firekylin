@@ -18,6 +18,11 @@ RUN yarn \
 RUN yarn run webpack.build.production \
     && yarn run compile
 
+
+# clean cache
+RUN yarn cache clean
+
+
 EXPOSE 8360
 
 CMD ["pm2-docker", "start", "pm2.json"]
