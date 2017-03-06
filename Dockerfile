@@ -1,5 +1,5 @@
 
-FROM jerrybendy/node-yarn-cn
+FROM daocloud.io/jerrybendy/node-yarn-cn
 
 MAINTAINER Jerry Bendy <jerry@icewingcc.com>
 
