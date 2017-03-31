@@ -63,7 +63,9 @@
 [Steven's Club](https://g.32ph.com/) / 
 [大路小兵的博客](https://cooxa.com/) / 
 [小撸的博客](http://www.60sky.com/) / 
-[花花的博客](https://imwineki.cn/)
+[花花的博客](https://imwineki.cn/) / 
+[刘涛的个人小站](https://imliutao.com) / 
+[大官人的博客](https://www.daguanren.cc/)
 
 如果你的博客也是用 FireKylin 构建的，请到 https://github.com/75team/firekylin/issues/34 提交网址。
 
@@ -79,5 +81,6 @@
 
 欢迎使用支付宝或者微信扫描二维码进行捐赠！已捐赠用户将在 [捐赠列表](https://github.com/75team/firekylin/wiki/捐赠列表) 中列出。
 
-<img width="300" src="https://p5.ssl.qhimg.com/t013f422b5b319becbb.png" alt="donate by alipay" />
-<img width="300" src="https://p4.ssl.qhimg.com/t0142965a40989b8d7a.png" alt="donate by wechat" />
+<div class="donate-qrcode">
+<img width="300" src="https://p5.ssl.qhimg.com/t013f422b5b319becbb.png" alt="donate by alipay" /> <img width="300" src="https://p4.ssl.qhimg.com/t0142965a40989b8d7a.png" alt="donate by wechat" />
+</div>

@@ -4,9 +4,18 @@ import Base from './base.js';
 import toc from 'markdown-toc';
 import highlight from 'highlight.js';
 import push2Firekylin from 'push-to-firekylin';
+import moment from 'moment';
 
 export default class extends Base {
-  modelInstance = this.modelInstance.where({type: 0});
+  constructor(http){
+    super(http);
+    this._modelInstance = this.modelInstance;
+    Object.defineProperty(this, 'modelInstance', {
+      get() {
+        return this._modelInstance.where({type: 0})
+      }
+    })
+  }
   /**
    * get
    * @return {[type]} [description]
@@ -63,8 +72,8 @@ export default class extends Base {
   async postAction(){
     let data = this.post();
     //check pathname
-    let post = await this.modelInstance.where({pathname: data.pathname}).select();
-    if( post.length > 0 ) {
+    let post = await this.modelInstance.where({pathname: data.pathname}).find();
+    if( !think.isEmpty(post) ) {
       return this.fail('PATHNAME_EXIST');
     }
 
@@ -82,8 +91,8 @@ export default class extends Base {
     data = this.getPostTime(data);
     data.options = data.options ? JSON.stringify(data.options) : '';
 
-    let insertId = await this.modelInstance.addPost(data);
-    return this.success({id: insertId});
+    let insert = await this.modelInstance.addPost(data);
+    return this.success(insert);
   }
   /**
    * update user info
@@ -112,6 +121,26 @@ export default class extends Base {
       data.options = data.options ? JSON.stringify(data.options) : '';
       if(data.tag) {
         data.tag = await this.getTagIds(data.tag);
+      }
+    } else if (data.create_time) {
+      /** 审核通过的状态修改，有 create_time 即需要更新时间，时间由服务器生成 */
+
+      const post = await this.modelInstance.where({id: data.id}).find();
+      let options = JSON.parse(post.options || "{}");
+      if (typeof options === 'string') {
+        options = JSON.parse(options) || {};
+      }
+
+      if (moment(data.create_time) < moment() && !options.origin_create_time) {
+
+        data.options = JSON.stringify({
+          ...options,
+          origin_create_time: data.create_time
+        });
+        data.create_time = think.datetime(); // 此处可能出现 create_time 和 update_time 不一致的情况
+      } else {
+        // 此处需删除 create_time，或者对 create_time 的格式进行处理
+        delete data.create_time;
       }
     }
 
@@ -155,7 +184,7 @@ export default class extends Base {
 
 ${post.markdown_content}`;
     }
-    
+
     delete post.id;
     delete post.cate;
     delete post.options;
@@ -187,7 +216,7 @@ ${post.markdown_content}`;
   }
 
   /**
-   * 渲染 markdown 
+   * 渲染 markdown
    * 摘要为部分内容时不展示 TOC
    * 文章正文设置为手动指定 TOC 时不显示
    * 页面不自动生成 TOC 除非是手动指定了
@@ -195,7 +224,7 @@ ${post.markdown_content}`;
   async getContentAndSummary(data) {
     let options = await this.model('options').getOptions();
     let postTocManual = options.postTocManual === '1';
-    
+
     let showToc;
     if( !postTocManual ) {
       showToc = data.type/1 === 0;
@@ -207,7 +236,7 @@ ${post.markdown_content}`;
     data.summary = data.markdown_content.split('<!--more-->')[0];
     data.summary = this.markdownToHtml(data.summary, {toc: false, highlight: true});
     data.summary.replace(/<[>]*>/g, '');
-    
+
     return data;
   }
 
@@ -244,7 +273,7 @@ ${post.markdown_content}`;
    */
   markdownToHtml(content, option = {toc: true, highlight: true}){
     let markedContent = marked(content);
-    
+
     /**
      * 增加 TOC 目录
      */
@@ -269,7 +298,7 @@ ${post.markdown_content}`;
         return `<pre><code class="hljs lang-${result.language}">${result.value}</code></pre>`;
       });
     }
-    
+
     return markedContent;
   }
 
