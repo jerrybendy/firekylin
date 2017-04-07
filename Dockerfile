@@ -1,5 +1,5 @@
 
-FROM daocloud.io/jerrybendy/node-yarn-cn
+FROM node:7.8
 
 MAINTAINER Jerry Bendy <jerry@icewingcc.com>
 
@@ -9,6 +9,8 @@ COPY . /app
 
 WORKDIR /app
 
+# install pm2
+RUN yarn global add pm2
 
 # install and add lock file
 RUN yarn \
