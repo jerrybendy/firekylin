@@ -88,8 +88,11 @@
         loadDuoshuoComment();
       }else if(dataType === 'changyan'){
         loadChangyanComment();
+      }else if(dataType === 'netease') {
+        loadNeteaseComment();
       }
     }
+
     if(location.hash.indexOf('#comments') > -1){
       load();
     }else {
@@ -143,14 +146,30 @@
     var s = document.createElement('script');
     if (width < 960) { 
       s.id = 'changyan_mobile_js';
-      s.src = 'http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+      s.src = '//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
     } else {
-      s.src = 'http://changyan.sohu.com/upload/changyan.js';
+      s.src = '//changyan.sohu.com/upload/changyan.js';
       s.onload = function() {
         window.changyan.api.config({appid:appid,conf:conf});
       }
     }
     (doc.head||doc.body).appendChild(s);
+  }
+
+  var loadNeteaseComment = function() {
+    var disqus_thread = getById('cloud-tie-wrapper');
+    if(!disqus_thread){
+      return;
+    }
+    window.cloudTieConfig = {
+      url: getById('comments').getAttribute('data-url'), 
+      sourceId: "",
+      productKey: disqus_thread.getAttribute('data-name'),
+      target: disqus_thread.className
+    };
+    var s = document.createElement('script');
+    s.src = 'https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js';
+    (doc.head || doc.body).appendChild(s);
   }
   window.addEventListener('load', function(){
     loadComment();
@@ -229,5 +248,35 @@
   }
 
   Dom.bindEvent();
+
+  /**
+   *  Image Lazy Load
+   */
+  win.addEventListener('load', lazyLoad);
+  win.addEventListener('scroll', lazyLoad);
+  win.addEventListener('resize', lazyLoad);
+
+  function lazyLoad() {
+    var lazyLoadImages = doc.getElementsByClassName('lazy-load');
+
+    if (lazyLoadImages.length === 0) {
+      win.removeEventListener('load', lazyLoad);
+      win.removeEventListener('scroll', lazyLoad);
+      win.removeEventListener('resize', lazyLoad);
+    } else {
+      for (var i = 0; i < lazyLoadImages.length; i++) {
+        var img = lazyLoadImages[i];
+        if (lazyLoadShouldAppear(img, 300)) {
+          img.src = img.getAttribute('data-src');
+          img.removeAttribute('data-src');
+          img.classList.remove('lazy-load');
+        }
+      }
+    }
+  }
+
+  function lazyLoadShouldAppear(el, buffer) {
+    return el.offsetTop - (doc.body.scrollTop + (win.innerHeight || doc.documentElement.clientHeight)) < buffer;
+  }
 
 })(window, document);

@@ -55,6 +55,7 @@ LOCK TABLES `fk_options` WRITE;
 INSERT INTO `fk_options` (`key`, `value`, `desc`)
 VALUES
   ('analyze_code','','统计代码，可以添加百度统计、Google 统计等'),
+  ('auto_summary', '0', '自动摘要。0 为禁用，具体的数字为摘要截取的字符数'),
   ('comment','{\"type\":\"duoshuo\",\"name\":\"welefen2013\"}','评论类型'),
   ('description','A Simple & Fast Node Bloging Platform Base On ThinkJS 2.0 & ReactJS & ES6/7','网站描述'),
   ('favicon_url','','favicon'),
@@ -64,7 +65,7 @@ VALUES
   ('keywords','www,fasdf,fasdfa','网站关键字'),
   ('logo_url','/static/img/firekylin.jpg','logo 地址'),
   ('miitbeian','wewww','网站备案号'),
-  ('num_per_page','10','文章一页显示的条数'),
+  ('postsListSize','10','文章一页显示的条数'),
   ('password_salt','firekylin','密码 salt，网站安装的时候随机生成一个'),
   ('push','0','是否允许推送'),
   ('push_sites','','推送网站列表'),

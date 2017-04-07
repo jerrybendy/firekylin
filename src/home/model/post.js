@@ -10,11 +10,11 @@ export default class extends think.model.relation {
   relation = {
     cate: {
       type: think.model.MANY_TO_MANY,
-      field: 'id,name'
+      field: 'id,name,pathname'
     },
     tag: {
       type: think.model.MANY_TO_MANY,
-      field: 'id,name'
+      field: 'id,name,pathname'
     },
     user: {
       type: think.model.BELONG_TO,
@@ -60,7 +60,7 @@ export default class extends think.model.relation {
 
     if(options.tag || options.cate){
       let name = options.tag ? 'tag' : 'cate';
-      let {id} = await this.model(name).field('id').setRelation(false).where({name: options.tag || options.cate}).find();
+      let {id} = await this.model(name).field('id').setRelation(false).where({pathname: options.tag || options.cate}).find();
       if(think.isEmpty(id)){
         return false;
       }
@@ -125,8 +125,14 @@ export default class extends think.model.relation {
   }
 
   async getPostSitemapList(){
-    let field = 'pathname,update_time';
-    let where = this.getWhereCondition();
+    let field = 'pathname,type,update_time';
+    let where = {
+      is_public: 1, //公开
+      status: 3, //已经发布
+      create_time: {
+        '<=': think.datetime()
+      }
+    }
 
     let data = await this.field(field).where(where).order('update_time DESC').setRelation(false).select();
     return data;
@@ -157,6 +163,6 @@ export default class extends think.model.relation {
   async getPostSearch(keyword, page){
     let where = {'title|content': ['LIKE', `%${keyword}%`]}
     where = this.getWhereCondition(where);
-    return this.where(where).page(page, this.postsListSize).setRelation(false).field('title,pathname,summary,create_time').order('create_time DESC').countSelect();
+    return this.where(where).page(page, this.postsListSize).setRelation(false).field('title,pathname,summary,create_time').order('create_time DESC').countSelect(false);
   }
 }

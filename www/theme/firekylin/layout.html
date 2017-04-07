@@ -6,9 +6,10 @@
   <link rel="icon" href="{{options.favicon_url |default('/static/img/firekylin.jpg')}}">
   {% if options.favicon %}<link rel="shortcut icon" href="{{options.favicon}}" type="image/x-icon">{% endif %}
   <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/rss.html">
-  <meta name="keywords" content="{{options.keywords}}">
-  <meta name="description" content="{{options.description}}">
+  {% if options.keywords %}<meta name="keywords" content="{{options.keywords}}">{% endif %}
+  {% if options.description %}<meta name="description" content="{{options.description}}">{% endif %}
   <title>{% block title %}{% endblock %}</title>
+  {%- block headers %}{% endblock -%}
   {% set lscookie = 'lscookie'%}
   <link rel="stylesheet" href="/theme/firekylin/res/css/all.css" type="text/css" data-ls="css_firekylin">
   {% if themeConfig.sidebarBackground or themeConfig.sidebarBackgroundColor or themeConfig.customCSS or themeConfig.sidebarColor %}
@@ -94,8 +95,13 @@
 {% endblock %}
 <footer id="footer" class="inner">
   &copy; {{ currentYear }}&nbsp;-&nbsp; {{options.title}}
-  {% if options.miitbeian %}
+  {% if options.miitbeian or options.mpsbeian %}
+    {% if options.miitbeian %}
     &nbsp;-&nbsp;<a target="_blank" rel="nofollow" class="external beian" href="http://www.miitbeian.gov.cn/">{{options.miitbeian}}</a>
+    {% endif %}
+    {% if options.mpsbeian %}
+    &nbsp;-&nbsp;<a target="_blank" rel="nofollow" class="external beian" href="http://www.beian.gov.cn/">{{options.mpsbeian}}</a>
+    {% endif %}
   {%else%}
     &nbsp;-&nbsp;<a href="/">{{http.hostname}}</a>
   {% endif %}
