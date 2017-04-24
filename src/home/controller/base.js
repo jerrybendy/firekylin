@@ -1,5 +1,4 @@
 'use strict';
-import fs from 'fs';
 import pack from '../../../package.json';
 
 export default class extends think.controller.base {
@@ -8,7 +7,7 @@ export default class extends think.controller.base {
    * @param  {[type]} http [description]
    * @return {[type]}      [description]
    */
-  init(http){
+  init(http) {
     super.init(http);
     //home view path
     this.HOME_VIEW_PATH = `${think.ROOT_PATH}${think.sep}view${think.sep}home${think.sep}`;
@@ -16,11 +15,11 @@ export default class extends think.controller.base {
   /**
    * some base method in here
    */
-  async __before(){
-    if(this.http.action === 'install'){
+  async __before() {
+    if(this.http.action === 'install') {
       return;
     }
-    if(!firekylin.isInstalled){
+    if(!firekylin.isInstalled) {
       return this.redirect('/index/install');
     }
 
@@ -49,7 +48,7 @@ export default class extends think.controller.base {
 
     //网站地址
     let siteUrl = this.options.site_url;
-    if(!siteUrl){
+    if(!siteUrl) {
       siteUrl = 'http://' + this.http.host;
     }
     this.assign('site_url', siteUrl);
@@ -58,14 +57,37 @@ export default class extends think.controller.base {
     let categories = await this.model('cate').getCateArchive();
     this.assign('categories', categories);
 
-    this.assign('currentYear', (new Date).getFullYear());
+    // 所有标签
+    let tagModel = this.model('tag');
+    let tagList = await tagModel.getTagArchive();
+    this.assign('tags', tagList);
+
+    // 最近10条文章
+    let postModel = this.model('post');
+    let lastPostList = await postModel.getLastPostList();
+    this.assign('lastPostList', lastPostList);
+
+    this.assign('currentYear', (new Date()).getFullYear());
   }
   /**
    * display view page
    * @param  {} name []
    * @return {}      []
    */
-  async displayView(name){
+  async displayView(name) {
+    if (this.http.url.match(/\.json(?:\?|$)/)) {
+      let jsonOutput = {},
+        assignObj = this.assign();
+      Object.keys(assignObj).forEach((key)=>{
+        if (['controller', 'http', 'config', '_', 'options'].indexOf(key) === -1) {
+          jsonOutput[key] = assignObj[key];
+        }
+      })
+
+      this.type('application/json');
+      return this.end(jsonOutput);
+    }
+
     return this.display(this.THEME_VIEW_PATH + name + '.html');
   }
 }

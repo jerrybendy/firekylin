@@ -8,7 +8,7 @@ export default class extends think.service.base {
 
   // 域名不带http/https自动补全http
   getAbsOrigin(origin) {
-    const reg = /^https?:\/\/.+/;
+    const reg = /^(https?:)?\/\/.+/;
     if (!reg.test(origin)) {
       return `http://${origin}`;
     }
@@ -17,7 +17,7 @@ export default class extends think.service.base {
 
   // 获取当前的格式化时间
   formatNow() {
-    return moment(new Date()).format("YYYYMMDD");
+    return moment(new Date()).format('YYYYMMDD');
   }
 
   // 获取存储路径
