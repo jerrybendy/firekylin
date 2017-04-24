@@ -1,16 +1,20 @@
 {
   "name": "Firekylin",
   "description": "A Simple & Fast Node Bloging Platform Base On ThinkJS 2.0 & ReactJS & ES2015+",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "scripts": {
     "start": "node www/development.js",
     "compile": "babel --presets es2015,stage-1 --plugins transform-runtime src/ --out-dir app/",
-    "watch-compile": "node -e \"console.log('<npm run watch-compile> no longer need, use <npm start> command direct.');console.log();\"",
+    "watch-compile": "node -e \"console.log('<npm run watch-compile> no longer need, use <npm start> command directly.');console.log();\"",
     "watch": "npm run watch-compile",
     "copy-package": "node bin/copy_package.js",
     "webpack": "webpack --watch",
     "webpack.build": "webpack",
-    "webpack.build.production": "webpack --config=webpack.production.config.babel.js"
+    "webpack.build.production": "webpack --config=webpack.production.config.babel.js",
+    "lint": "eslint ./src ./*.js ./www/*.js ./www/static/src ./www/theme/firekylin --ignore-path .gitignore --cache -f table --ext .js,.jsx || true",
+    "lint-fix": "eslint ./src ./*.js ./www/*.js ./www/static/src ./www/theme/firekylin --ignore-path .gitignore -f table --ext .js,.jsx --fix || true",
+    "lint-break-on-errors": "echo '\n[INFO] Running ESLint...\n[INFO] (Autofix with `npm run lint-fix`)' && eslint ./src ./*.js ./www/*.js ./www/static/src ./www/theme/firekylin --ignore-path .gitignore -f table --ext .js,.jsx",
+    "check-extraneous-pkgs": "npm list --depth=0 && echo '[SUCCESS] No extraneous packages.' || (echo '[INFO] Pruning extraneous packages...\n' && npm prune)"
   },
   "dependencies": {
     "babel-runtime": "6.x.x",
@@ -49,8 +53,13 @@
     "classnames": "^2.2.3",
     "codemirror": "^5.24.2",
     "css-loader": "^0.23.1",
+    "eslint": "^3.19.0",
+    "eslint-import-resolver-webpack": "^0.8.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.10.3",
     "history": "^1.17.0",
     "md5": "^2.0.0",
+    "pre-commit": "^1.2.2",
     "qrcode-react": "^0.1.10",
     "rc-select": "^5.10.0",
     "react": "^0.14.7",
@@ -76,6 +85,10 @@
     "superagent": "^1.7.2",
     "webpack": "^2.2.0"
   },
-  "repository": "https://github.com/75team/firekylin",
-  "license": "MIT"
+  "repository": "https://github.com/firekylin/firekylin",
+  "license": "MIT",
+  "pre-commit": [
+    "check-extraneous-pkgs",
+    "lint-break-on-errors"
+  ]
 }
