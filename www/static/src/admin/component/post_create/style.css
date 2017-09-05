@@ -2,7 +2,7 @@
   overflow: hidden;
   margin-bottom: 15px;
 }
-.pathname > span {
+.pathname > span, .pathname > a {
   float: left;
   line-height: 39px;
 }
@@ -12,14 +12,22 @@
   margin: 0 5px;
   display: inline-block;
 }
+.pathname a .glyphicon, .pathname a .icon {
+  display: inline;
+  background: none;
+  font-size: 12px;
+  margin-left: 5px;
+  color: #AAA;
+}
 
 
 .md-panel {
-  height: 550px;
+  height: calc(100vh - 250px);;
+  min-height: 550px;
 }
 
 .md-panel.fullscreen {
-  height: auto;
+  height: auto !important;
 }
 
 .rc-select-dropdown-menu {
@@ -40,4 +48,9 @@
 }
 .post-create .col-xs-3 > div.button-group > button:last-child {
   float: right;
+}
+
+.post-create img.featured-image {
+  margin-top: 5px;
+  cursor: pointer;
 }

@@ -46,7 +46,7 @@
 
 ## 常见问题
 
-如果您在使用过程中遇到问题，请查看 [问题解答](https://github.com/firekylin/firekylin/wiki/问题解答) 中的解答，或者在 [GitHub](https://github.com/firekylin/firekylin/wiki/issues) 及 [Gitter](https://gitter.im/fire_kylin/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 上提问。
+如果您在使用过程中遇到问题，请查看 [问题解答](https://github.com/firekylin/firekylin/wiki/问题解答) 中的解答，或者在 [GitHub](https://github.com/firekylin/firekylin/wiki/issues) 及 [Gitter](https://gitter.im/firekylin/firekylin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) 上提问。
 
 ## 用户列表
 
@@ -65,7 +65,8 @@
 [小撸的博客](http://www.60sky.com/) / 
 [花花的博客](https://imwineki.cn/) / 
 [刘涛的个人小站](https://imliutao.com) / 
-[大官人的博客](https://www.daguanren.cc/)
+[大官人的博客](https://www.daguanren.cc/) / 
+[小路口](https://imjiaolong.cn/)
 
 如果你的博客也是用 FireKylin 构建的，请到 https://github.com/firekylin/firekylin/issues/34 提交网址。
 
@@ -75,11 +76,11 @@
 - [主题开发](https://github.com/firekylin/firekylin/wiki/%E4%B8%BB%E9%A2%98%E5%BC%80%E5%8F%91)
 - [贡献代码](https://github.com/firekylin/firekylin/wiki/%E8%B4%A1%E7%8C%AE%E4%BB%A3%E7%A0%81)
 
-## 捐赠我们
+## 捐赠支持
 
 你的每一份帮助都将使 Firekylin 做的更好，走的更远！我们一直在坚持不懈地努力，并坚持让 Firekylin 完全开源免费，你的帮助将使我们更有动力和信心！
 
-欢迎使用支付宝或者微信扫描二维码进行捐赠！已捐赠用户将在 [捐赠列表](https://github.com/firekylin/firekylin/wiki/捐赠列表) 中列出。
+欢迎使用支付宝或者微信扫描二维码进行捐赠！已捐赠用户将在 [捐赠列表](https://github.com/firekylin/firekylin/wiki/捐赠列表) 中列出。同时也欢迎进入 [Firekylin 周边店铺](https://weidian.com/?userid=1233141030) 购买周边支持我们的项目！
 
 <div class="donate-qrcode">
 <img width="300" src="https://p5.ssl.qhimg.com/t013f422b5b319becbb.png" alt="donate by alipay" /> <img width="300" src="https://p4.ssl.qhimg.com/t0142965a40989b8d7a.png" alt="donate by wechat" />

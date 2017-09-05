@@ -6,6 +6,8 @@
 .table tr td .form-group{margin-bottom:0;}
 .radio-inline,label.checkbox-inline{margin:0 15px 0 0;padding:0;}
 .radio-inline + .radio-inline,.checkbox-inline + .checkbox-inline{margin-left:0;}
+.checkbox, .radio{margin-top: 5px;margin-bottom: 5px;}
+.checkbox + .checkbox, .radio + .radio{margin-top:0;}
 .nav > li > a:hover,.nav > li > a:focus{background-color:transparent;}
 .table-striped > tbody > tr:nth-child(odd) > td,.table-striped > tbody > tr:nth-child(odd) > th{background-color:#F5F8FA;}
 .alert{padding:5px 15px;}
@@ -26,8 +28,17 @@ ul,ol{padding:0;list-style:none;}
 .center{text-align: center;}
 .gray{color: #888}
 
-.login{width: 300px;margin: auto;margin-top:180px;}
+.login, .forgot{width: 300px;margin: auto;margin-top:180px;}
 .login h1{margin-bottom: 20px;}
+.form-footer {
+    margin-top: 20px;
+}
+.form-footer .back-site {
+    float:left;
+}
+.forgot-password {
+    float: right;
+}
 .breadcrumb{background: none;margin-top: 7px;margin-bottom: 7px;margin-left: 0px;padding-left: 20px;}
 .userinfo{margin-right: 0px;-webkit-user-select:none;}
 .manage-container{background: #fff;padding: 10px 20px;position: absolute;top: 60px;bottom: 0;right: 0;left: 0;overflow: auto;}
@@ -158,7 +169,7 @@ textarea{resize:none;}
 #search{margin-top:25px;}
 .fk-content-wrap .icon-date{position:absolute;top:5px;left:20px;background:#2780bb!important;}
 .fk-content-wrap .mod-data{padding:3px 0 0 20px;text-align: center;}
-.fk-content-wrap input[type=radio],.fk-content-wrap input[type=checkbox]{margin-right:5px;}
+.fk-content-wrap input[type=radio],.fk-content-wrap input[type=checkbox]{margin-right:5px;margin-left:-18px;}
 .fk-content-wrap .tab-content th{border:none;color:#000;font-weight:400;}
 .fk-content-wrap table > tfoot > tr > td{padding-top:18px;padding-bottom:0;}
 .fk-content-wrap .mod-text-inline{padding: 0 5px 0 8px;width:auto;line-height:34px;}
@@ -615,7 +626,8 @@ div.pipe:after, .pipe>.half:before, .pipe>.half:after  {
     color: #AAA;
 }
 .theme-editor .CodeMirror {
-    height: 600px;
+    height: calc(100vh - 200px);
+    min-height: 600px;
 }
 
 .f-no-select {

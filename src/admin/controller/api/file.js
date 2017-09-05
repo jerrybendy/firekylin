@@ -1,9 +1,7 @@
 import os from 'os';
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 import request from 'request';
-import JSZip from 'jszip';
 
 import Base from './base';
 
@@ -56,30 +54,12 @@ export default class extends Base {
     return this.serviceUpload(type, file.path, config);
   }
 
-  // 导出 Markdown 文件
+  // 导出其他平台数据
   async getAction() {
-    const PATH = path.join(think.RUNTIME_PATH, 'exportedMarkdownFiles');
-
-    if (this.get('type') === 'markdown') {
-      let num = await this.model('post').getCount();
-      let data = await this.model('post').getLatest(0, num);
-      try {
-        execSync(`rm -rf ${PATH}; mkdir ${PATH};`);
-        let zip = new JSZip();
-        for (let item of data) {
-          zip.file(`${think.datetime(item['create_time'], 'YYYY-MM-DD-')}${item['title']}.md`, item['markdown_content']);
-        }
-
-        zip
-          .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
-          .pipe(fs.createWriteStream(path.join(PATH, 'export.zip')))
-          .on('finish', () => this.download(path.join(PATH, 'export.zip')));
-      } catch (e) {
-        throw new Error(e);
-      }
-    } else {
-      this.success();
+    if(this.get('exporter')) {
+      return this.serviceExport(this.get('exporter'));
     }
+    return this.success();
   }
 
   // 获取上传设置
@@ -109,6 +89,19 @@ export default class extends Base {
       let importor = think.service(`import/${service}`, 'admin');
       let {post, page, category, tag} = await (new importor(this)).run(file);
       return this.success(`共导入文章 ${post} 篇，页面 ${page} 页，分类 ${category} 个，标签 ${tag} 个`);
+    } catch(e) {
+      return this.fail(e);
+    }
+  }
+
+  /**
+   * 导出数据到其它平台
+   */
+  async serviceExport(service) {
+    try {
+      let exporter = think.service(`export/${service}`, 'admin');
+      let file = await (new exporter()).run();
+      return this.download(file);
     } catch(e) {
       return this.fail(e);
     }
